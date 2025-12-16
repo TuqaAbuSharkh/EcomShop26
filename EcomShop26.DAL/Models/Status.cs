@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace EcomShop26.DAL.Models
 {
-    public class Category :BaseModel
+    public enum Status
     {
-
-       
-        public List<CategoryTranslation> Translations { get; set; }
+        InActive=0,
+        Active=1
     }
 }
