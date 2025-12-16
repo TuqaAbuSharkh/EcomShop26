@@ -1,0 +1,6 @@
+@EcomShop26.PL_HostAddress = http://localhost:5223
+
+GET {{EcomShop26.PL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
