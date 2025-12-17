@@ -1,7 +1,9 @@
-﻿using EcomShop26.DAL.Data;
+﻿using EcomShop26.BLL.Services;
+using EcomShop26.DAL.Data;
 using EcomShop26.DAL.DTOs.Request;
 using EcomShop26.DAL.DTOs.Response;
 using EcomShop26.DAL.Models;
+using EcomShop26.DAL.Repository;
 using EcomShop26.PL.Resourses;
 using Mapster;
 using Microsoft.AspNetCore.Http;
@@ -15,28 +17,27 @@ namespace EcomShop26.PL.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly IStringLocalizer<SharedResource> _localizer;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(ApplicationDbContext context,IStringLocalizer<SharedResource> Localizer)
+        public CategoriesController(IStringLocalizer<SharedResource> Localizer, ICategoryService categoryService)
         {
-            _context = context;
             _localizer = Localizer;
+            _categoryService = categoryService;
         }
         [HttpGet("")]
 
         public IActionResult index()
         {
-            var categories = _context.Categories.Include(c=>c.Translations).ToList();
-            var response = categories.Adapt <List< CategoryResponse >> ();
+            var response = _categoryService.GetAllCategories();
+
             return Ok(new {message = _localizer["Success"].Value,response });
         }
+
         [HttpPost("")]
         public IActionResult Creat(CategoryRequest request)
         {
-            var category = request.Adapt<Category>();
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            var response = _categoryService.CreatCategory(request);
             return Ok(new { message = _localizer["Success"].Value });
         }
     }

@@ -1,5 +1,7 @@
 
+using EcomShop26.BLL.Services;
 using EcomShop26.DAL.Data;
+using EcomShop26.DAL.Repository;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -41,6 +43,9 @@ namespace EcomShop26.PL
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICategoryService,ICategoryService>();
 
             var app = builder.Build();
 
