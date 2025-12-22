@@ -31,7 +31,7 @@ namespace EcomShop26.BLL.Services
             var categories = _categoryRepository.GetAll();
 
             var response = categories.Adapt<List<CategoryResponse>>();
-            return response
+            return response;
         }
     }
 }
