@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using System.Security.Claims;
 
 namespace EcomShop26.PL.Areas.Admin
 {
@@ -28,6 +29,7 @@ namespace EcomShop26.PL.Areas.Admin
        
         public IActionResult Creat(CategoryRequest request)
         {
+
             var response = _categoryService.CreatCategory(request);
             return Ok(new { message = _localizer["Success"].Value });
         }

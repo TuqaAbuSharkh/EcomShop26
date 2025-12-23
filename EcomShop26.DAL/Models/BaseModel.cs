@@ -12,7 +12,12 @@ namespace EcomShop26.DAL.Models
 
         public DateTime CreatedAt { set; get; } = DateTime.UtcNow;
 
-        public Status Status { get; set; }
+        public string CreatedBy { get; set; }
+
+        public DateTime UpdatedAt { set; get; } = DateTime.UtcNow;
+
+        public string? UpdatedBy { get; set; }
+        public Status? Status { get; set; }
 
     }
 }
