@@ -12,7 +12,12 @@ namespace EcomShop26.BLL.Services
     public interface ICategoryService
     {
 
-        List<CategoryResponse> GetAllCategories();
-        CategoryResponse CreatCategory(CategoryRequest  request);
+        Task<List<CategoryUserResponse>> GetAllCategoriesForUser(string lang = "en");
+        Task<List<CategoryResponse>> GetAllCategoriesForAdmin();
+        Task<CategoryResponse> CreatCategory(CategoryRequest request);
+
+        Task<BaseRespose> ToggelStatus(int id);
+        Task<BaseRespose> DeleteCategoryAsync(int id);
+        Task<BaseRespose> UpdateCategoryAsync(int id, CategoryRequest request);
     }
 }

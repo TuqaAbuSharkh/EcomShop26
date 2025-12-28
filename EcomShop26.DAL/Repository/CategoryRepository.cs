@@ -18,16 +18,35 @@ namespace EcomShop26.DAL.Repository
             _context = context;
         }
 
-        public Category Creat(Category request)
+        public async  Task<Category> CreatAsync(Category request)
         {
-            _context.Categories.Add(request);
-            _context.SaveChanges();
+          await  _context.Categories.AddAsync(request);
+           _context.SaveChangesAsync();
             return request;
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAllAsync()
         {
-            return _context.Categories.Include(c => c.Translations).ToList();
+            return await _context.Categories.Include(c => c.User).Include(c => c.Translations).ToListAsync();
+        }
+
+        public async Task<Category?> FindbyIdAsync(int id)
+        {
+            return await _context.Categories.Include(c => c.Translations)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task DeleteAsync(Category category)
+        {
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Category?> UpdateAsync(Category category)
+        {
+            _context.Categories.Update(category);
+            await _context.SaveChangesAsync();
+            return category;
         }
     }
 }

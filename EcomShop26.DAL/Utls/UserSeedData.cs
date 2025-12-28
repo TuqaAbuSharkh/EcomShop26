@@ -31,7 +31,7 @@ namespace EcomShop26.DAL.Utls
 
                 await _userManager.CreateAsync(user1,"Pass@2005");
 
-                await _userManager.AddToRoleAsync(user1, "SuperAdmin");
+                await _userManager.AddToRoleAsync(user1, "Admin");
             }
         }
 

@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace EcomShop26.DAL.DTOs.Response
 {
-    public class CategoryResponse
+    public class ProductResponse
     {
         public int Id { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Status Status { get; set; }
-      
+
+        public string MainImage { get; set; }
+
         public string CreatedBy { get; set; }
         public List<CategoryTranslResponse> Translations { get; set; }
+
     }
 }

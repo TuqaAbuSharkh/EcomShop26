@@ -9,7 +9,11 @@ namespace EcomShop26.DAL.Repository
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAll();
-        Category Creat(Category request);
+        Task<List<Category>> GetAllAsync();
+        Task<Category> CreatAsync(Category request);
+
+        Task<Category?> FindbyIdAsync(int id);
+        Task DeleteAsync(Category category);
+        Task<Category?> UpdateAsync(Category category);
     }
 }

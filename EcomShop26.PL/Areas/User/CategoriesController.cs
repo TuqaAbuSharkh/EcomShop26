@@ -22,9 +22,9 @@ namespace EcomShop26.PL.Areas.User
         }
         [HttpGet("")]
 
-        public IActionResult index()
+        public async Task<IActionResult> indexAsync([FromQuery]string lang ="en")
         {
-            var response = _categoryService.GetAllCategories();
+            var response =await _categoryService.GetAllCategoriesForUser(lang);
 
             return Ok(new { message = _localizer["Success"].Value, response });
         }

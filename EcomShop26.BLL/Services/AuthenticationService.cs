@@ -151,11 +151,18 @@ namespace EcomShop26.BLL.Services
 
         private async Task<string> GenerateAccessToken(ApplicationUser user)
         {
+            var roles = _userManager.GetRolesAsync(user);
+
             var userClaims =new List<Claim>(){
                 new Claim(ClaimTypes.NameIdentifier,user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role,string.Join(',',roles)),
+
             };
+           
+
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:secretKey"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -238,6 +245,8 @@ namespace EcomShop26.BLL.Services
             }
             await _emailSender.SendEmailAsync(request.Email, "Changed Password", $"<p> your password is changed</p>");
 
+            user.CodeResetPassword = null;
+            await _userManager.UpdateAsync(user);
             return new ResetPasswordResponse
             {
                 Success = true,

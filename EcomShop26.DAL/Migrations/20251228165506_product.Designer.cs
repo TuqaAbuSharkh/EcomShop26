@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcomShop26.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251223195122_audit")]
-    partial class audit
+    [Migration("20251228165506_product")]
+    partial class product
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,7 +119,7 @@ namespace EcomShop26.DAL.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("Status")
                         .HasColumnType("int");
@@ -131,6 +131,8 @@ namespace EcomShop26.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Categories");
                 });
@@ -159,6 +161,88 @@ namespace EcomShop26.DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("categoryTranslations");
+                });
+
+            modelBuilder.Entity("EcomShop26.DAL.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("MainImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Rate")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("EcomShop26.DAL.Models.ProductTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductTranslations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -294,6 +378,17 @@ namespace EcomShop26.DAL.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("EcomShop26.DAL.Models.Category", b =>
+                {
+                    b.HasOne("EcomShop26.DAL.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EcomShop26.DAL.Models.CategoryTranslation", b =>
                 {
                     b.HasOne("EcomShop26.DAL.Models.Category", "category")
@@ -303,6 +398,36 @@ namespace EcomShop26.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
+                });
+
+            modelBuilder.Entity("EcomShop26.DAL.Models.Product", b =>
+                {
+                    b.HasOne("EcomShop26.DAL.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EcomShop26.DAL.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EcomShop26.DAL.Models.ProductTranslation", b =>
+                {
+                    b.HasOne("EcomShop26.DAL.Models.Product", "product")
+                        .WithMany("Translations")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -357,6 +482,13 @@ namespace EcomShop26.DAL.Migrations
                 });
 
             modelBuilder.Entity("EcomShop26.DAL.Models.Category", b =>
+                {
+                    b.Navigation("Products");
+
+                    b.Navigation("Translations");
+                });
+
+            modelBuilder.Entity("EcomShop26.DAL.Models.Product", b =>
                 {
                     b.Navigation("Translations");
                 });

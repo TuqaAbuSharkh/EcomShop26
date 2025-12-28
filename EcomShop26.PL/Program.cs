@@ -1,4 +1,5 @@
 
+using EcomShop26.BLL.MapsterConfigration;
 using EcomShop26.BLL.Services;
 using EcomShop26.DAL.Data;
 using EcomShop26.DAL.Models;
@@ -6,7 +7,6 @@ using EcomShop26.DAL.Repository;
 using EcomShop26.DAL.Utls;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -27,9 +27,6 @@ namespace EcomShop26.PL
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddTransient<IEmailSender, EmailSender>();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -123,12 +120,9 @@ namespace EcomShop26.PL
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            builder.Services.AddScoped<ISeedData, RoleSeedData>();
-            builder.Services.AddScoped<ISeedData,  UserSeedData>();
-            builder.Services.AddScoped<IAuthinticationService,AuthenticationService >();
 
-
-
+            AppConfigration.Config(builder.Services);
+            MapsterConfig.MapsterConfigRegister();
 
             var app = builder.Build();
 
