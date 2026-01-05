@@ -17,6 +17,10 @@ namespace EcomShop26.PL
             Services.AddScoped<ISeedData, RoleSeedData>();
             Services.AddScoped<ISeedData, UserSeedData>();
             Services.AddScoped<IAuthinticationService, AuthenticationService>();
+            Services.AddScoped<IFileService, FileService>();
+            Services.AddScoped<IProductRepository, ProductRepository>();
+            Services.AddScoped<IProductService, ProductService>();
+            Services.AddScoped<ITokenService, TokenService>();
 
         }
     }

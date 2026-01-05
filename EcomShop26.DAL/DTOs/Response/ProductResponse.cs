@@ -16,6 +16,8 @@ namespace EcomShop26.DAL.DTOs.Response
 
         public string MainImage { get; set; }
 
+        public List<string>    SubImages { get; set; }
+
         public string CreatedBy { get; set; }
         public List<CategoryTranslResponse> Translations { get; set; }
 

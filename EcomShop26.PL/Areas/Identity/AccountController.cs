@@ -2,6 +2,7 @@
 using EcomShop26.DAL.DTOs.Request;
 using EcomShop26.DAL.DTOs.Response;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -73,7 +74,16 @@ namespace EcomShop26.PL.Areas.Identity
             return Ok(result);
         }
 
-
+        [HttpPatch("RefreshToken")]
+        public async Task<IActionResult> RefreshToken(TokenApiModel request)
+        {
+            var result = await _authenticationService.RefreshTokenAsync(request);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
 
     }
 

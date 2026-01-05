@@ -9,10 +9,9 @@ using System.Security.Claims;
 
 namespace EcomShop26.PL.Areas.Admin
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
-    [Authorize]
-    
+    [Authorize]//(Roles = "Admin")
     public class CategoriesController : ControllerBase
     {
         private readonly IStringLocalizer<SharedResource> _localizer;

@@ -21,6 +21,10 @@ namespace EcomShop26.BLL.MapsterConfigration
                 .Map(dest => dest.Name, source => source.Translations.Where(t => t.Language == MapContext.Current.Parameters["lang"].ToString())
                 .Select(t => t.Name).FirstOrDefault()).TwoWays();
 
+
+
+            TypeAdapterConfig<Product, ProductResponse>.NewConfig()
+                .Map(dest => dest.MainImage, source => $"https://localhost:7131/Images/{source.MainImage}");
         }
     }
 }

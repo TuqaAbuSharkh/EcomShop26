@@ -19,5 +19,7 @@ namespace EcomShop26.BLL.Services
 
         Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
 
+        Task<LoginResponse> RefreshTokenAsync(TokenApiModel request);
+
     }
 }

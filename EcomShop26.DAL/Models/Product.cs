@@ -20,6 +20,8 @@ namespace EcomShop26.DAL.Models
 
 
         public List<ProductTranslation> Translations { get; set; }
+        public List<ProductImage> SubImages { get; set; }
+
 
     }
 }

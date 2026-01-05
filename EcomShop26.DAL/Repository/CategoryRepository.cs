@@ -27,8 +27,9 @@ namespace EcomShop26.DAL.Repository
 
         public async Task<List<Category>> GetAllAsync()
         {
-            return await _context.Categories.Include(c => c.User).Include(c => c.Translations).ToListAsync();
+            return await _context.Categories.Include(c => c.Translations).Include(c => c.User).ToListAsync();
         }
+        
 
         public async Task<Category?> FindbyIdAsync(int id)
         {
