@@ -1,4 +1,5 @@
 
+using EcomShop26.BLL;
 using EcomShop26.BLL.MapsterConfigration;
 using EcomShop26.BLL.Services;
 using EcomShop26.DAL.Data;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +28,9 @@ namespace EcomShop26.PL
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {

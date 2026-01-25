@@ -1,0 +1,23 @@
+﻿using EcomShop26.DAL.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+
+namespace EcomShop26.DAL.DTOs.Response
+{
+    public class ProductUserResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+      //  public decimal Discount { get; set; }
+        public int Quantity { get; set; }
+        public Double Rate { get; set; }
+        public string MainImage { get; set; }
+
+
+    }
+}

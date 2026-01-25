@@ -17,6 +17,6 @@ namespace EcomShop26.DAL.Models
         public DateTime? PasswordResetCodeExpiry { get; set; }
 
         public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

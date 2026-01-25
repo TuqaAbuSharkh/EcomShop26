@@ -28,6 +28,12 @@ namespace EcomShop26.DAL.Data
         public DbSet<ProductTranslation> ProductTranslations { get; set; }
         public IHttpContextAccessor HttpContextAccessor { get; }
 
+        public DbSet<Cart> Carts { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -44,6 +50,24 @@ namespace EcomShop26.DAL.Data
                 .WithMany()
                 .HasForeignKey(c => c.CreatedBy)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Cart>()
+               .HasOne(c => c.User)
+               .WithMany()
+               .HasForeignKey(c => c.userId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Product>()
+               .HasOne(c => c.User)
+               .WithMany()
+               .HasForeignKey(c => c.CreatedBy)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Order>()
+               .HasOne(c => c.User)
+               .WithMany()
+               .HasForeignKey(c => c.UserId)
+               .OnDelete(DeleteBehavior.NoAction);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

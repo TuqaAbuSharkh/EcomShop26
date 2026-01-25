@@ -21,6 +21,12 @@ namespace EcomShop26.PL
             Services.AddScoped<IProductRepository, ProductRepository>();
             Services.AddScoped<IProductService, ProductService>();
             Services.AddScoped<ITokenService, TokenService>();
+            Services.AddScoped<ICartService, CartService>();
+            Services.AddScoped<ICartRepository, CartRepository>();
+            Services.AddScoped<ICheckoutService, CheckoutService>();
+            Services.AddScoped<IOrderRepository, OrderRepository>();
+            Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
 
         }
     }
