@@ -6,6 +6,7 @@ using EcomShop26.DAL.Data;
 using EcomShop26.DAL.Models;
 using EcomShop26.DAL.Repository;
 using EcomShop26.DAL.Utls;
+using EcomShop26.PL.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -142,6 +143,7 @@ namespace EcomShop26.PL
                 app.UseSwaggerUI();
             }
 
+            app.UseExceptionHandler();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 

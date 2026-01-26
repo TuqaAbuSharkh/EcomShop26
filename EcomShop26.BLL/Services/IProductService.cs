@@ -12,7 +12,13 @@ namespace EcomShop26.BLL.Services
     {
         Task<ProductResponse> CreatProduct(ProductRequest request);
         Task<List<ProductResponse>> GetAllProductsForAdmin();
-        Task<List<ProductUserResponse>> GetAllProductsForUser(string lang = "en", int page = 1, int limit = 4,string? search = null);
+        Task<PagenatedResponse<ProductUserResponse>> GetAllProductsForUser(string lang = "en", int page = 1,
+            int limit = 4, string? search = null,
+            int? categoryId = null,
+            decimal? maxPrice = null,
+            decimal? minPrice = null,
+            string? sortBy = null,
+            bool asc = true);
         Task<ProductUserDetails> GetAllProductsDetailsForUser(int id, string lang = "en");
     }
 }

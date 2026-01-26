@@ -28,6 +28,8 @@ namespace EcomShop26.PL
             Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
 
+            Services.AddExceptionHandler<GlobalExceptionHandler>();
+            Services.AddProblemDetails();
         }
     }
 }

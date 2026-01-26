@@ -47,22 +47,64 @@ namespace EcomShop26.BLL.Services
         }
 
 
-        public async Task<List<ProductUserResponse>> GetAllProductsForUser(string lang = "en",int page =1,
-            int limit = 4,string? search= null)
+        public async Task<PagenatedResponse<ProductUserResponse>>  GetAllProductsForUser(string lang = "en",int page =1,
+            int limit = 4,string? search= null,
+            int? categoryId = null,
+            decimal? maxPrice = null,
+            decimal? minPrice = null,
+            string? sortBy = null,
+            bool asc=true)
         {
             var query =  _productRepository.Query();
             if(search is not null)
             {
                 query = query.Where(p => p.Translations.Any(t => t.Language == lang && t.Name.Contains(search)|| t.Description.Contains(search)));
             }
+            if (categoryId is not null)
+            {
+                query = query.Where(p => p.CategoryId == categoryId);
+            }
+            if (maxPrice is not null)
+            {
+                query = query.Where(p => p.Price <= maxPrice);
 
-            var totalCount = query.CountAsync();
+            }
+            if (minPrice is not null)
+            {
+                query = query.Where(p => p.Price >= minPrice);
+
+            }
+            if(sortBy is not null)
+            {
+                sortBy = sortBy.ToLower();
+                if(sortBy == "price")
+                {
+                    query = asc ? query.OrderBy(p => p.Price) : query.OrderByDescending(p => p.Price);
+                }else if(sortBy == "name")
+                {
+                    query = asc ? query.OrderBy(t => t.Translations.FirstOrDefault(n => n.Language == lang).Name)
+                        : query.OrderByDescending(t => t.Translations.FirstOrDefault(n => n.Language == lang).Name);
+
+                }else if (sortBy == "rate")
+                {
+                    query = asc ? query.OrderBy(p => p.Rate) : query.OrderByDescending(p => p.Rate);
+                }
+            }
+
+            var totalCount =await query.CountAsync();
             query = query.Skip((page - 1) * limit).Take(limit);
 
             var response = query.BuildAdapter().AddParameters("lang", lang).AdaptToType<List<ProductUserResponse>>();
 
 
-            return response;
+            return new PagenatedResponse<ProductUserResponse>
+            { 
+                TotalCount = totalCount,
+                page = page,
+                limit = limit,
+                Data = response
+            };
+                
         }
 
 
