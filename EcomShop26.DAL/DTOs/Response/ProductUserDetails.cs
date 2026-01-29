@@ -18,5 +18,8 @@ namespace EcomShop26.DAL.DTOs.Response
         public int Quantity { get; set; }
         public Double Rate { get; set; }
         public string MainImage { get; set; }
+
+        public List<string> SubImages { get; set; }
+        public List<ReviewResponse> Reviews { get; set; }
     }
 }

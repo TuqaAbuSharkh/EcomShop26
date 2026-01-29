@@ -10,7 +10,7 @@ namespace EcomShop26.PL.Areas.Admin
 {
     [Route("api/admin/[controller]")]
     [ApiController]
-    [Authorize]//(Roles="Admin")
+    [Authorize(Roles="Admin")]
     public class ProductsController : ControllerBase
     {
         private readonly IStringLocalizer<SharedResource> _localizer;

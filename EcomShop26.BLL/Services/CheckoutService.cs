@@ -66,7 +66,7 @@ namespace EcomShop26.BLL.Services
                 UserId = userId,
                 PaymentMethod = request.PaymentMethod,
                 AmountPaid = totalamount,
-
+                PaymentStauts = PaymentStautsEnum.UnPaid
             };
 
             if (request.PaymentMethod == PaymentMethodEnum.cash) {
@@ -115,6 +115,7 @@ namespace EcomShop26.BLL.Services
                 var service = new SessionService();
                 var session = service.Create(options);
                 order.sessionId = session.Id;
+                order.PaymentStauts = PaymentStautsEnum.Paid;
                 await _orderRepositorycs.CreatAsync(order);
 
                 return new ChechoutResponse

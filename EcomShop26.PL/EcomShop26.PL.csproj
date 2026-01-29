@@ -4,9 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>bf71a048-11ea-4e8c-8af7-65e77e4b1720</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK" Version="2.3.55.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
       <PrivateAssets>all</PrivateAssets>

@@ -12,7 +12,7 @@ namespace EcomShop26.PL
             {
                 StautsCode = StatusCodes.Status500InternalServerError,
                 Message = "server error ...",
-               // StackTrace = exception.InnerException.Message//in development mode only!!!
+                StackTrace = exception.InnerException.Message//in development mode only!!!
             };
 
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;

@@ -39,7 +39,8 @@ namespace EcomShop26.BLL.MapsterConfigration
                 .Map(dest => dest.Description, source => source.Translations.Where(t => t.Language == MapContext.Current.Parameters["lang"].ToString())
                 .Select(t => t.Description).FirstOrDefault()).TwoWays();
 
-
+            TypeAdapterConfig<Order, OrderResponse>.NewConfig()
+             .Map(dest => dest.UserName, source => source.User.UserName);
 
         }
     }

@@ -6,7 +6,6 @@ using EcomShop26.DAL.Data;
 using EcomShop26.DAL.Models;
 using EcomShop26.DAL.Repository;
 using EcomShop26.DAL.Utls;
-using EcomShop26.PL.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -26,6 +25,21 @@ namespace EcomShop26.PL
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      // policy.WithOrigins("http://example.com",
+                                      //                     "http://www.contoso.com");
+                                      policy.AllowAnyOrigin()
+                                       .AllowAnyMethod()
+                                       .AllowAnyHeader();
+                                  });
+            });
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -143,6 +157,7 @@ namespace EcomShop26.PL
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseExceptionHandler();
             app.UseStaticFiles();
             app.UseHttpsRedirection();

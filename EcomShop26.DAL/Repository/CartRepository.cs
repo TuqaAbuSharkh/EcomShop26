@@ -38,7 +38,7 @@ namespace EcomShop26.DAL.Repository
 
         public async Task<Cart?> GetCartItemAsync(string userId,int productId)
         {
-            return await _context.Carts.Include(c => c.ProductId == productId)
+            return await _context.Carts.Include(c => c.Product)
                 .FirstOrDefaultAsync(c => c.userId == userId && c.ProductId == productId); 
         }
 
@@ -53,6 +53,12 @@ namespace EcomShop26.DAL.Repository
         {
             var items = await _context.Carts.Where(c => c.userId == userId).ToListAsync();
             _context.Carts.RemoveRange(items);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Cart cart)
+        {
+            _context.Carts.Remove(cart);
             await _context.SaveChangesAsync();
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcomShop26.DAL.DTOs.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace EcomShop26.DAL.Models
 
         public List<ProductTranslation> Translations { get; set; }
         public List<ProductImage> SubImages { get; set; }
+
+        public List<Review> Reviews { get; set; }
 
 
     }

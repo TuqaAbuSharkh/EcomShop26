@@ -1,9 +1,11 @@
 ﻿using EcomShop26.BLL.Services;
+using EcomShop26.DAL.DTOs.Request;
 using EcomShop26.PL.Resourses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
+using System.Security.Claims;
 
 namespace EcomShop26.PL.Areas.User
 {
@@ -14,11 +16,14 @@ namespace EcomShop26.PL.Areas.User
 
         private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly IProductService _productService;
+        private readonly IReviewService _reviewService;
 
-        public ProductsController(IStringLocalizer<SharedResource> Localizer, IProductService productService)
+        public ProductsController(IStringLocalizer<SharedResource> Localizer, IProductService productService
+            ,IReviewService reviewService)
         {
             _localizer = Localizer;
             _productService = productService;
+            _reviewService = reviewService;
         }
         [HttpGet("")]
 
@@ -44,6 +49,14 @@ namespace EcomShop26.PL.Areas.User
             return Ok(new { message = _localizer["Success"].Value, response });
         }
 
-
+        [HttpPost("{productId}/reviews")]
+        public async Task<IActionResult> CreatReview([FromRoute]int productId, [FromBody]CreatReveiwRequest request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await _reviewService.AddReviewAsync(userId, productId, request);
+            if (!response.Success)
+                return BadRequest(new {message =  response.Message });
+            return Ok(new { message = response.Message });
+        }
     }
 }

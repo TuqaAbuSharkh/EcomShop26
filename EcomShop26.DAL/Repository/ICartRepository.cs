@@ -15,5 +15,6 @@ namespace EcomShop26.DAL.Repository
         Task<Cart?> GetCartItemAsync(string userId, int productId);
         Task ClearAsync(string userId);
         Task<Cart> UpdateAsync(Cart cart);
+        Task DeleteAsync(Cart cart);
     }
 }

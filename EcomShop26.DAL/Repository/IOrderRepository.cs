@@ -12,5 +12,9 @@ namespace EcomShop26.DAL.Repository
         Task<Order> CreatAsync(Order request);
         Task<Order> GetBySessionIdAsync(string sessionId);
         Task<Order> UpdateAsync(Order order);
+        Task<List<Order>> GetOrdersByStautsAsync(OrderStauts stauts);
+
+        Task<Order?> GetOrderByIdAsync(int orderId);
+        Task<bool> HasUserDeliveredOrderForProduct(string userId, int productId);
     }
 }

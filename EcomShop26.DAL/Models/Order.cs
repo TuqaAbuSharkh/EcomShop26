@@ -19,6 +19,11 @@ namespace EcomShop26.DAL.Models
         vise=2,
         cash =1
     }
+    public enum PaymentStautsEnum
+    {
+        UnPaid = 1,
+        Paid = 2
+    }
     public class Order
     {
         public int Id { get; set; }
@@ -30,6 +35,7 @@ namespace EcomShop26.DAL.Models
         public string? sessionId { get; set; }
         public string? paymentId { get; set; }
 
+        public PaymentStautsEnum? PaymentStauts { get; set; }
         public decimal? AmountPaid { get; set; }
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }

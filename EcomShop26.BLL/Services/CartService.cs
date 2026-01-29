@@ -33,7 +33,10 @@ namespace EcomShop26.BLL.Services
                     Message = "product Not found"
                 };
             }
-            if(product.Quantity < request.Count)
+            var cartItem = await _cartRepository.GetCartItemAsync(userId, request.ProductId);
+            var exsisting = cartItem?.Count ??0;
+
+            if (product.Quantity < (exsisting+ request.Count))
             {
                 return new BaseRespose
                 {
@@ -42,7 +45,6 @@ namespace EcomShop26.BLL.Services
                 };
             }
 
-            var cartItem = await _cartRepository.GetCartItemAsync(userId, request.ProductId);
             if(cartItem is not null)
             {
                cartItem.Count += request.Count;
@@ -94,6 +96,66 @@ namespace EcomShop26.BLL.Services
         }
 
 
+        public async Task<BaseRespose> RemoveFromCartAsync(string userId, int productId)
+        {
+            var cartItem = await _cartRepository.GetCartItemAsync(userId,productId);
+            if (cartItem is null)
+            {
+                return new BaseRespose
+                {
+                    Success = false,
+                    Message = "product Not found"
+                };
+            }
+            await _cartRepository.DeleteAsync(cartItem);
+            return new BaseRespose
+            {
+                Success = true,
+                Message = "product removed from cart"
+            };
+
+        }
+
+        public async Task<BaseRespose> UpdateQuantityAsync(string userId, int productId,int count)
+        {
+            var cartItem = await _cartRepository.GetCartItemAsync(userId,productId);
+            var product = await _productRepository.FindByIdAsync(productId);
+            //if(count <= 0)
+            //{
+            //    return new BaseRespose
+            //    {
+            //        Success = false,
+            //        Message = "invalid count "
+            //    };
+            //}
+            if (count == 0)
+            {
+                await _cartRepository.DeleteAsync(cartItem);
+                return new BaseRespose
+                {
+                    Success = true,
+                    Message = "item remover from cart "
+                };
+            }
+
+            if (product.Quantity< count)
+            {
+                return new BaseRespose
+                {
+                    Success = false,
+                    Message = "not enough stock"
+                };
+            }
+
+            cartItem.Count = count;
+            await _cartRepository.UpdateAsync(cartItem);
+
+            return new BaseRespose
+            {
+                Success = true,
+                Message = "quantity updated successfully"
+            };
+        }
 
 
     }

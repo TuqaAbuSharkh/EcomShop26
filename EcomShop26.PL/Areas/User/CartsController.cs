@@ -42,11 +42,27 @@ namespace EcomShop26.PL.Areas.User
             return Ok(result);
         }
 
+        [HttpPatch("{productId}")]
+        public async Task<IActionResult> UpdateQuantity([FromRoute]int productId, [FromBody] updateQtRequest request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _cartService.UpdateQuantityAsync(userId,productId,request.Count);
+            return Ok(result);
+        }
+
         [HttpDelete("")]
         public async Task<IActionResult> ClearCart()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var result = await _cartService.ClearCartAsync(userId);
+            return Ok(result);
+        }
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> RemoveItem([FromRoute] int productId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _cartService.RemoveFromCartAsync(userId,productId);
             return Ok(result);
         }
 

@@ -14,5 +14,7 @@ namespace EcomShop26.BLL.Services
         Task<CartSummaryResponse> GetUserCartAsync(string userId, string lang = "en");
 
         Task<BaseRespose> ClearCartAsync(string userId);
+        Task<BaseRespose> RemoveFromCartAsync(string userId, int productId);
+        Task<BaseRespose> UpdateQuantityAsync(string userId, int productId, int count);
     }
 }
